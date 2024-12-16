@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="author" content="Jesús Milla Cabrera">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/dark.css">
+  <title>Frontend</title>
+</head>
+
+<body>
+  <h1>Datos desde el Backend</h1>
+
+  <!-- Contenedor para la tabla -->
+  <table id="data-table" border="1">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Descripción</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Las filas de la tabla se insertarán aquí -->
+    </tbody>
+  </table>
+
+  <script>
+    // console.log("Cargando el frontend");
+    // fetch('http://localhost:8010')
+    //   .then(response => response.json())
+    //   .then(data => {
+    //     document.getElementById('data').innerText = JSON.stringify(data, null, 2);
+    //   })
+    //   .catch(error => {
+    //     document.getElementById('data').innerText = 'Error al obtener los datos';
+    //     console.error(error);
+    //   });
+
+    console.log("Cargando el frontend");
+
+    // Realizamos la solicitud fetch al backend
+    fetch('http://localhost:8010')
+      .then(response => response.json())  // Parseamos la respuesta como JSON
+      .then(data => {
+        // Seleccionamos el cuerpo de la tabla
+        const tableBody = document.getElementById('data-table').getElementsByTagName('tbody')[0];
+
+        // Iteramos sobre los datos recibidos y agregamos filas a la tabla
+        data.forEach(item => {
+          // Creamos una nueva fila de la tabla
+          const row = document.createElement('tr');
+
+          // Creamos celdas para cada campo de la fila
+          const idCell = document.createElement('td');
+          idCell.textContent = item.id;
+
+          const nameCell = document.createElement('td');
+          nameCell.textContent = item.nombre;
+
+          const descriptionCell = document.createElement('td');
+          descriptionCell.textContent = item.descripcion;
+
+          // Añadimos las celdas a la fila
+          row.appendChild(idCell);
+          row.appendChild(nameCell);
+          row.appendChild(descriptionCell);
+
+          // Añadimos la fila al cuerpo de la tabla
+          tableBody.appendChild(row);
+        });
+      })
+      .catch(error => {
+        console.error('Error al obtener los datos:', error);
+      });
+  </script>
+</body>
+
+</html>
